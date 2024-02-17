@@ -49,6 +49,7 @@ public class AddressBookGUI {
         newContactLabel.setForeground(Color.DARK_GRAY);
         Dimension size = newContactLabel.getPreferredSize();
         int y = 10;
+
         newContactLabel.setBounds(220, y, size.width, size.height + 10);
         panel.add(newContactLabel);
 

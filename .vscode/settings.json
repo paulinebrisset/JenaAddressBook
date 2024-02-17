@@ -3,6 +3,7 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
+        "c:\\Program Files\\Java\\jdk-21\\bin\\*.jar",
         "c:\\Program Files\\jena-4.10.0\\apache-jena-4.10.0\\lib\\jena-core-4.10.0.jar",
         "c:\\Program Files\\jena-4.10.0\\apache-jena-4.10.0\\lib\\jena-rdfconnection-4.10.0.jar",
         "c:\\Program Files\\jena-4.10.0\\apache-jena-4.10.0\\lib\\jena-rdfpatch-4.10.0.jar",

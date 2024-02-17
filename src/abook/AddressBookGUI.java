@@ -78,10 +78,14 @@ public class AddressBookGUI {
 
         // Display contacts notebook
         contactsTextArea = new JTextArea();
-        contactsTextArea.setBounds(10, 280, 560, 400);
         contactsTextArea.setEditable(false);
         contactsTextArea.setBackground(LABEL_FOREGROUND_COLOR);
-        panel.add(contactsTextArea);
+
+        JScrollPane scrollPane = new JScrollPane(contactsTextArea);
+        scrollPane.setBounds(10, 280, 560, 400); // Set the bounds for the scroll pane
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // Show vertical scroll bar always
+
+        panel.add(scrollPane);
 
         // Call AddressBook.java with error control
         displayButton.addActionListener(e -> {

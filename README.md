@@ -23,7 +23,7 @@ You also need to download the [Jena framework](https://jena.apache.org/tutorials
 * Clone the project repository from the Git repository
 
    ```bash
-   git clone https://github.com/paulinebrisset/JenaNoteBook.git
+   git clone https://github.com/paulinebrisset/JenaAddressBookg.git
    ```
 
 * Open the projet with vscode

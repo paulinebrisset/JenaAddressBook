@@ -52,7 +52,7 @@ public class SparqlGUI {
         queryPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 20, 10));
         queryPanel.setBackground(PINK_COLOR);
 
-        JLabel queryLabel = new JLabel("Essayez de faire une requête SPARQL:");
+        JLabel queryLabel = new JLabel("Essayez de faire une requête SPARQL sur Dbpedia:");
         queryLabel.setForeground(Color.DARK_GRAY);
         queryPanel.add(queryLabel);
 

@@ -56,7 +56,7 @@ public class SparqlGUI {
         queryLabel.setForeground(Color.DARK_GRAY);
         queryPanel.add(queryLabel);
 
-        queryTextArea = new JTextArea(3, 40);
+        queryTextArea = new JTextArea(3, 10);
         JScrollPane queryScrollPane = new JScrollPane(queryTextArea);
         queryPanel.add(queryScrollPane);
 
@@ -81,7 +81,7 @@ public class SparqlGUI {
         resultTextArea = new JTextArea(10, 40);
         resultTextArea.setEditable(false);
         JScrollPane resultScrollPane = new JScrollPane(resultTextArea);
-        resultPanel.add(resultScrollPane, BorderLayout.CENTER);
+        resultPanel.add(resultScrollPane);
 
         panel.add(resultPanel, BorderLayout.SOUTH);
     }

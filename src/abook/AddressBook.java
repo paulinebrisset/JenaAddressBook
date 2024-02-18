@@ -224,11 +224,11 @@ public class AddressBook {
                 System.out.println("Query 3: Actors or actresses who acted in the movie \"Armageddon\"");
                 System.out.println("");
                 String query3 = "SELECT ?actorOrActress" +
-                                "WHERE {" +
-                                "    ?actorOrActress a <http://dbpedia.org/ontology/Actor> ." +
-                                "    ?actorOrActress <http://dbpedia.org/ontology/starring> <http://dbpedia.org/resource/Armageddon>"
-                                +
-                                "}";
+                                "WHERE {"
+                                + "       ?film <http://dbpedia.org/ontology/starring> ?actorOrActress ."
+                                + "        ?film <http://dbpedia.org/ontology/wikiPageWikiLink> <http://dbpedia.org/resource/Armageddon> ."
+                                + "        ?actorOrActress a <http://dbpedia.org/ontology/Actor> ."
+                                + "      }";
                 answer = addressBook.querySPARQLEndpoint(query3);
                 System.out.println(answer);
 
@@ -236,13 +236,13 @@ public class AddressBook {
                 System.out.println("");
                 System.out.println("Query 4: Actors or actresses who acted with Bruce Willis (movies in common)");
                 System.out.println("");
-                String query4 = "SELECT DISTINCT ?movieName"
-                                + "  WHERE {"
-                                + "<http://dbpedia.org/resource/Bruce_Willis> <http://dbpedia.org/ontology/starring> ?movie ."
-                                + "?actorOrActress <http://dbpedia.org/ontology/starring> ?movie ."
-                                + "?movie <http://purl.org/dc/terms/label> ?movieName ."
-                                + "FILTER (?actorOrActress != <http://dbpedia.org/resource/Bruce_Willis>)"
-                                + "}";
+                String query4 = "SELECT DISTINCT ?actorOrActress ?movieName WHERE {" +
+                                " ?bruceFilm <http://dbpedia.org/ontology/starring> <http://dbpedia.org/resource/Bruce_Willis> ."
+                                + " ?bruceFilm <http://dbpedia.org/ontology/starring> ?actorOrActress ." +
+                                "  ?actorOrActress <http://xmlns.com/foaf/0.1/name> ?actorOrActressName ." +
+                                " ?bruceFilm <http://xmlns.com/foaf/0.1/name> ?movieName ." +
+                                " FILTER (?actorOrActress != <http://dbpedia.org/resource/Bruce_Willis>)" +
+                                "}";
                 answer = addressBook.querySPARQLEndpoint(query4);
                 System.out.println(answer);
         }

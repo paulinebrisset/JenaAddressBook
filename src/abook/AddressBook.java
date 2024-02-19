@@ -166,7 +166,7 @@ public class AddressBook {
                 } catch (QueryParseException e) {
                         System.err.println("Error parsing URI query: " + e.getMessage());
                 }
-                // Une requête de mon choix
+                // Juste les noms, prénoms, surnoms
                 String queryString = "PREFIX vcard: <http://www.w3.org/2001/vcard-rdf/3.0#>\n" +
                                 "SELECT ?givenName ?familyName ?nickname WHERE {?person vcard:N [ vcard:Given ?givenName; vcard:Family ?familyName; vcard:NICKNAME ?nickname ]. }";
                 Query query = QueryFactory.create(queryString);
@@ -176,6 +176,58 @@ public class AddressBook {
                 } catch (QueryParseException e) {
                         System.err.println("Error parsing query: " + e.getMessage());
                 }
+        }
+
+        public void askDBpedia() {
+
+                // Query 1: Count the number of concepts in DBpedia
+                System.out.println("");
+                System.out.println("Query 1: Count the number of concepts in DBpedia ");
+                System.out.println("");
+                String query1 = "SELECT (COUNT(?s) AS ?count) WHERE { ?s ?p ?o }";
+                String answer = this.querySPARQLEndpoint(query1);
+                System.out.println(answer);
+
+                // Query 2: Actors or actresses born in the 1950s
+                System.out.println("");
+                System.out.println("Query 2: Actors or actresses born in the 1950s ");
+                System.out.println("");
+                String query2 = "SELECT ?actorOrActress"
+                                + "                WHERE {"
+                                + "                  ?actorOrActress a <http://dbpedia.org/ontology/Actor> ."
+                                + "                ?actorOrActress <http://dbpedia.org/ontology/birthDate> ?date ."
+                                + "               FILTER (YEAR(?date) >= 1950 && YEAR(?date) <= 1959)"
+                                +
+                                "}";
+                answer = this.querySPARQLEndpoint(query2);
+                System.out.println(answer);
+
+                // Query 3: Actors or actresses who acted in the movie "Armageddon"
+                System.out.println("");
+                System.out.println("Query 3: Actors or actresses who acted in the movie \"Armageddon\"");
+                System.out.println("");
+                String query3 = "SELECT ?actorOrActress" +
+                                "WHERE {"
+                                + "       ?film <http://dbpedia.org/ontology/starring> ?actorOrActress ."
+                                + "        ?film <http://dbpedia.org/ontology/wikiPageWikiLink> <http://dbpedia.org/resource/Armageddon> ."
+                                + "        ?actorOrActress a <http://dbpedia.org/ontology/Actor> ."
+                                + "      }";
+                answer = this.querySPARQLEndpoint(query3);
+                System.out.println(answer);
+
+                // Query 4: Actors or actresses who acted with Bruce Willis (movies in common)
+                System.out.println("");
+                System.out.println("Query 4: Actors or actresses who acted with Bruce Willis (movies in common)");
+                System.out.println("");
+                String query4 = "SELECT DISTINCT ?actorOrActress ?movieName WHERE {" +
+                                " ?bruceFilm <http://dbpedia.org/ontology/starring> <http://dbpedia.org/resource/Bruce_Willis> ."
+                                + " ?bruceFilm <http://dbpedia.org/ontology/starring> ?actorOrActress ." +
+                                "  ?actorOrActress <http://xmlns.com/foaf/0.1/name> ?actorOrActressName ." +
+                                " ?bruceFilm <http://xmlns.com/foaf/0.1/name> ?movieName ." +
+                                " FILTER (?actorOrActress != <http://dbpedia.org/resource/Bruce_Willis>)" +
+                                "}";
+                answer = this.querySPARQLEndpoint(query4);
+                System.out.println(answer);
         }
 
         public static void main(String args[]) {
@@ -197,53 +249,6 @@ public class AddressBook {
 
                 System.out.println("SPARQL Query Results:");
                 addressBook.testSomeRequests();
-                // Query 1: Count the number of concepts in DBpedia
-                System.out.println("");
-                System.out.println("Query 1: Count the number of concepts in DBpedia ");
-                System.out.println("");
-                String query1 = "SELECT (COUNT(?s) AS ?count) WHERE { ?s ?p ?o }";
-                String answer = addressBook.querySPARQLEndpoint(query1);
-                System.out.println(answer);
-
-                // Query 2: Actors or actresses born in the 1950s
-                System.out.println("");
-                System.out.println("Query 2: Actors or actresses born in the 1950s ");
-                System.out.println("");
-                String query2 = "SELECT ?actorOrActress"
-                                + "                WHERE {"
-                                + "                  ?actorOrActress a <http://dbpedia.org/ontology/Actor> ."
-                                + "                ?actorOrActress <http://dbpedia.org/ontology/birthDate> ?date ."
-                                + "               FILTER (YEAR(?date) >= 1950 && YEAR(?date) <= 1959)"
-                                +
-                                "}";
-                answer = addressBook.querySPARQLEndpoint(query2);
-                System.out.println(answer);
-
-                // Query 3: Actors or actresses who acted in the movie "Armageddon"
-                System.out.println("");
-                System.out.println("Query 3: Actors or actresses who acted in the movie \"Armageddon\"");
-                System.out.println("");
-                String query3 = "SELECT ?actorOrActress" +
-                                "WHERE {"
-                                + "       ?film <http://dbpedia.org/ontology/starring> ?actorOrActress ."
-                                + "        ?film <http://dbpedia.org/ontology/wikiPageWikiLink> <http://dbpedia.org/resource/Armageddon> ."
-                                + "        ?actorOrActress a <http://dbpedia.org/ontology/Actor> ."
-                                + "      }";
-                answer = addressBook.querySPARQLEndpoint(query3);
-                System.out.println(answer);
-
-                // Query 4: Actors or actresses who acted with Bruce Willis (movies in common)
-                System.out.println("");
-                System.out.println("Query 4: Actors or actresses who acted with Bruce Willis (movies in common)");
-                System.out.println("");
-                String query4 = "SELECT DISTINCT ?actorOrActress ?movieName WHERE {" +
-                                " ?bruceFilm <http://dbpedia.org/ontology/starring> <http://dbpedia.org/resource/Bruce_Willis> ."
-                                + " ?bruceFilm <http://dbpedia.org/ontology/starring> ?actorOrActress ." +
-                                "  ?actorOrActress <http://xmlns.com/foaf/0.1/name> ?actorOrActressName ." +
-                                " ?bruceFilm <http://xmlns.com/foaf/0.1/name> ?movieName ." +
-                                " FILTER (?actorOrActress != <http://dbpedia.org/resource/Bruce_Willis>)" +
-                                "}";
-                answer = addressBook.querySPARQLEndpoint(query4);
-                System.out.println(answer);
+                addressBook.askDBpedia();
         }
 }
